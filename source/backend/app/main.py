@@ -1,12 +1,14 @@
 from flask import Flask
 
+from app.core.config import DATABASE_URL
 from app.models import db
 
 
 def create_app() -> Flask:
 	app = Flask(__name__)
 	
-	app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/erp.db"
+	app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 	
 	db.init_app(app)
 	
