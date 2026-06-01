@@ -1,25 +1,24 @@
-import logging
+from flask import Flask
 
-from app.core.config import settings
-from app.core.services import GreetingService
-
-logging.basicConfig(
-	level=logging.INFO,
-	format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+from app.models import db
 
 
-
-def main():
-	logger.info(f"Запуск застосунку в режимі: {settings.ENVIRONMENT}")
+def create_app() -> Flask:
+	app = Flask(__name__)
 	
-	service = GreetingService(settings.GREETING_MESSAGE)	
-	greeting = service.generate_greeting("K2")
+	app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/erp.db"
 	
-	logger.info(greeting)
-
-
+	db.init_app(app)
+	
+	with app.app_context():
+		db.create_all()
+		
+	from app.routes import api_bp
+	app.register_blueprint(api_bp, url_prefix="/api")
+	
+	return app
 
 if __name__ == "__main__":
-	main()
+	app: Flask = create_app()
+	
+	app.run(debug=True)

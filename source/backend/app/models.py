@@ -6,6 +6,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
 
+
+
 class Client(db.Model):
 	__tablename__: str = "clients"
 	
@@ -36,6 +38,7 @@ class Order(db.Model):
 	@property
 	def total_amount(self) -> float:
 		return sum(item.quantity * item.price_at_moment for item in self.items)
+
 
 class OrderItem(db.Model):
 	__tablename__: str = "order_items"
