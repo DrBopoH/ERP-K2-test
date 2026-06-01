@@ -1,0 +1,25 @@
+[project]
+name = "ERP-K2-test"
+version = "0.0.1"
+readme = "../README.md"
+description = "1c/bas killer"
+requires-python = ">=3.14"
+dependencies = [
+    "flask>=3.1.3",
+    "python-dotenv>=1.2.2",
+    "sqlalchemy>=2.0.50",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "ruff>=0.15.15",
+]
+
+
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
