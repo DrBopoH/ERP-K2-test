@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 db = SQLAlchemy()
 
 class Client(db.Model):
-	__tablename__ = "clients"
+	__tablename__: str = "clients"
 	
 	id: Mapped[int] = mapped_column(primary_key=True)
 	name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -15,14 +15,14 @@ class Client(db.Model):
 	orders: Mapped[list["Order"]] = relationship(back_populates="client")
 
 class Product(db.Model):
-	__tablename__ = "products"
+	__tablename__: str = "products"
 	
 	id: Mapped[int] = mapped_column(primary_key=True)
 	name: Mapped[str] = mapped_column(String(100), nullable=False)
 	price: Mapped[float] = mapped_column(Float, nullable=False)
 
 class Order(db.Model):
-	__tablename__ = "orders"
+	__tablename__: str = "orders"
 	
 	id: Mapped[int] = mapped_column(primary_key=True)
 	client_id: Mapped[int] = mapped_column(ForeignKey("clients.id"), nullable=False)
@@ -38,7 +38,7 @@ class Order(db.Model):
 		return sum(item.quantity * item.price_at_moment for item in self.items)
 
 class OrderItem(db.Model):
-	__tablename__ = "order_items"
+	__tablename__: str = "order_items"
 	
 	id: Mapped[int] = mapped_column(primary_key=True)
 	order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), nullable=False)
