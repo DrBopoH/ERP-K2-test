@@ -105,8 +105,12 @@ def create_order() -> Tuple[Response, int]:
 	total_amount: float = 0.0
 	
 	for item_data in data["items"]:
-		product_id: Any = item_data.get("product_id")
-		quantity: int = item_data.get("quantity", 1)
+		product_id: Any = item_data.get("product_id")		
+		try:
+			quantity: int = int(item_data.get("quantity", 1))
+		except (ValueError, TypeError):
+			db.session.rollback()
+			return jsonify({"error": "Кількість товару має бути цілим числом"}), 400
 		
 		if quantity <= 0:
 			db.session.rollback()

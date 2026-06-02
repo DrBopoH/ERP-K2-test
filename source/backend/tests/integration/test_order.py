@@ -102,6 +102,33 @@ def test_create_order_missing_fields(client: FlaskClient):
 	assert "client_id та непорожній масив items є обов'язковими" in response.get_json()["error"]
 
 
+def test_create_order_invalid_quantity_type(client: FlaskClient):
+	"""
+	Перевірка обробки некоректного типу даних для quantity.
+	Якщо замість числа передати рядок (наприклад, 'abc'), 
+	API має повернути 400 Bad Request, а не впасти з 500 помилкою.
+	"""
+	client.post("/api/clients", json={
+		"name": "Хакер"
+	})
+	client.post("/api/products", json={
+		"name": "Клавіатура", 
+		"price": 1500.0
+	})
+	
+	order_data: Dict[str, int | List] = {
+		"client_id": 1,
+		"items": [{"product_id": 1, "quantity": "abc"}]
+	}
+	
+	response = client.post("/api/orders", json=order_data)
+	
+	assert response.status_code == 400
+	
+	data: Any = response.get_json()
+	assert "Кількість товару має бути цілим числом" in data["error"]
+
+
 
 def test_get_client_orders_success(client: FlaskClient):
 	"""Перевірка отримання історії замовлень клієнта з розгортанням списку товарів."""
