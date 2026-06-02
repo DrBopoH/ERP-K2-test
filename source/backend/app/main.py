@@ -5,6 +5,7 @@
 """
 
 from flask import Flask
+from flask_cors import CORS
 
 from app.core.config import DATABASE_URL
 from app.models import db
@@ -25,6 +26,8 @@ def create_app(test_config: dict | None = None) -> Flask:
 		- Flask: Повністю налаштований та готовий до роботи екземпляр додатку.
 	"""
 	app = Flask(__name__)
+
+	CORS(app)
 	
 	if test_config is None: # pragma: no cover
 		app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL 
