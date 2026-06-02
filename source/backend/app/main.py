@@ -10,9 +10,10 @@ from app.core.config import DATABASE_URL
 from app.models import db
 
 
-def create_app() -> Flask:
+def create_app(test_config: dict | None = None) -> Flask:
 	"""
 	Фабрика додатку (Application Factory) для створення та конфігурації екземпляра Flask.
+	Приймає опціональний test_config для перевизначення налаштувань під час тестів.
 	
 	Виконує:
 		- Ініціалізацію базових налаштувань та URI бази даних.
@@ -25,9 +26,13 @@ def create_app() -> Flask:
 	"""
 	app = Flask(__name__)
 	
-	app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
-	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+	if test_config is None:
+		app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+	else:
+		app.config.update(test_config)
 	
+	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 	db.init_app(app)
 	
 	with app.app_context():
