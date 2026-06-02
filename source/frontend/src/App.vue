@@ -1,11 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+</script>
 
 <template>
-	<h1>You did it!</h1>
-	<p>
-		Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-		documentation
-	</p>
+	<div class="app-layout">
+		<header class="app-header">
+			<nav class="nav-menu">
+				<RouterLink to="/" class="nav-link">Клієнти</RouterLink>
+				<RouterLink to="/products" class="nav-link">Товари</RouterLink>
+				<RouterLink to="/orders" class="nav-link">Замовлення</RouterLink>
+			</nav>
+		</header>
+
+		<main class="app-content">
+			<RouterView />
+		</main>
+	</div>
 </template>
 
 <style scoped></style>
