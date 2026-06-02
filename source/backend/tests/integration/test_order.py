@@ -54,6 +54,16 @@ def test_create_order_invalid_quantity(client: FlaskClient):
 	assert "Кількість товару має бути більшою за 0" in response.get_json()["error"]
 
 
+def test_create_order_missing_fields(client: FlaskClient):
+	response = client.post("/api/orders", json={})
+	assert response.status_code == 400
+	assert "client_id та непорожній масив items є обов'язковими" in response.get_json()["error"]
+
+	response = client.post("/api/orders", json={"client_id": 1, "items": []})
+	assert response.status_code == 400
+	assert "client_id та непорожній масив items є обов'язковими" in response.get_json()["error"]
+
+
 
 def test_get_client_orders_success(client: FlaskClient):
 	client.post("/api/clients", json={"name": "Петро"})

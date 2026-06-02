@@ -3,7 +3,7 @@
 Визначає структуру таблиць: клієнти, товари, замовлення та позиції замовлення.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime, Float, ForeignKey, Integer, String
@@ -59,7 +59,7 @@ class Order(db.Model):
 	
 	id: Mapped[int] = mapped_column(primary_key=True)
 	client_id: Mapped[int] = mapped_column(ForeignKey("clients.id"), nullable=False)
-	created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+	created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 	
 	client: Mapped["Client"] = relationship(back_populates="orders")
 	items: Mapped[list["OrderItem"]] = relationship(

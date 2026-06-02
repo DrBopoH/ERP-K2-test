@@ -26,8 +26,8 @@ def create_app(test_config: dict | None = None) -> Flask:
 	"""
 	app = Flask(__name__)
 	
-	if test_config is None:
-		app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+	if test_config is None: # pragma: no cover
+		app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL 
 	else:
 		app.config.update(test_config)
 	
@@ -43,7 +43,7 @@ def create_app(test_config: dict | None = None) -> Flask:
 	
 	return app
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
 	"""
 	Точка входу програми.
 	"""
