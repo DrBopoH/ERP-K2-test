@@ -9,7 +9,9 @@ from werkzeug.test import TestResponse
 
 def test_create_client_success(client: FlaskClient):
 	"""Перевірка успішного створення клієнта через API."""
-	response: TestResponse = client.post("/api/clients", json={"name": "ТОВ Тест"})
+	response: TestResponse = client.post("/api/clients", json={
+		"name": "ТОВ Тест"
+	})
 	assert response.status_code == 201
 	
 	data: Any = response.get_json()

@@ -9,9 +9,17 @@ from werkzeug.test import TestResponse
 
 def test_create_order_success(client: FlaskClient):
 	"""Комплексна перевірка успішного створення замовлення та розрахунку вартості."""
-	client.post("/api/clients", json={"name": "Іван"})
-	client.post("/api/products", json={"name": "Ноутбук", "price": 1000.0})
-	client.post("/api/products", json={"name": "Мишка", "price": 50.0})
+	client.post("/api/clients", json={
+		"name": "Іван"
+	})
+	client.post("/api/products", json={
+		"name": "Ноутбук", 
+		"price": 1000.0
+	})
+	client.post("/api/products", json={
+		"name": "Мишка", 
+		"price": 50.0
+	})
 
 	order_data: Dict[str, int | List] = {
 		"client_id": 1,
@@ -30,7 +38,11 @@ def test_create_order_success(client: FlaskClient):
 
 def test_create_order_client_not_found(client: FlaskClient):
 	"""Перевірка відхилення замовлення для неіснуючого клієнта."""
-	client.post("/api/products", json={"name": "Товар", "price": 10.0})
+	client.post("/api/products", json={
+		"name": "Товар", 
+		"price": 10.0
+	})
+
 	order_data: Dict[str, int | List] = {
 		"client_id": 999,
 		"items": [{"product_id": 1, "quantity": 1}]
@@ -43,7 +55,10 @@ def test_create_order_client_not_found(client: FlaskClient):
 
 def test_create_order_product_not_found(client: FlaskClient):
 	"""Перевірка відкату транзакції, якщо хоча б одного товару немає в базі."""
-	client.post("/api/clients", json={"name": "Олена"})
+	client.post("/api/clients", json={
+		"name": "Олена"
+	})
+
 	order_data: Dict[str, int | List] = {
 		"client_id": 1,
 		"items": [{"product_id": 999, "quantity": 1}]
@@ -55,8 +70,14 @@ def test_create_order_product_not_found(client: FlaskClient):
 
 def test_create_order_invalid_quantity(client: FlaskClient):
 	"""Перевірка бізнес-правила: кількість товару у замовленні має бути > 0."""
-	client.post("/api/clients", json={"name": "Олена"})
-	client.post("/api/products", json={"name": "Товар", "price": 10.0})
+	client.post("/api/clients", json={
+		"name": "Олена"
+	})
+	client.post("/api/products", json={
+		"name": "Товар", 
+		"price": 10.0
+	})
+
 	order_data: Dict[str, int | List] = {
 		"client_id": 1,
 		"items": [{"product_id": 1, "quantity": 0}]
@@ -73,7 +94,10 @@ def test_create_order_missing_fields(client: FlaskClient):
 	assert response.status_code == 400
 	assert "client_id та непорожній масив items є обов'язковими" in response.get_json()["error"]
 
-	response: TestResponse = client.post("/api/orders", json={"client_id": 1, "items": []})
+	response: TestResponse = client.post("/api/orders", json={
+		"client_id": 1, 
+		"items": []
+	})
 	assert response.status_code == 400
 	assert "client_id та непорожній масив items є обов'язковими" in response.get_json()["error"]
 
@@ -81,8 +105,13 @@ def test_create_order_missing_fields(client: FlaskClient):
 
 def test_get_client_orders_success(client: FlaskClient):
 	"""Перевірка отримання історії замовлень клієнта з розгортанням списку товарів."""
-	client.post("/api/clients", json={"name": "Петро"})
-	client.post("/api/products", json={"name": "Сік", "price": 40.0})
+	client.post("/api/clients", json={
+		"name": "Петро"
+	})
+	client.post("/api/products", json={
+		"name": "Сік", 
+		"price": 40.0
+	})
 	
 	client.post("/api/orders", json={
 		"client_id": 1,
