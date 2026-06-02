@@ -52,7 +52,7 @@ jobs:
           python-version: "3.14"
 
       - name: Run Tests
-        run: uv run pytest -v
+        run: uv run python -m pytest -v
 
   frontend-ci:
     name: Frontend CI (Build & Lint)
