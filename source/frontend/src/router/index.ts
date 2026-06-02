@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ClientsPage from '@/pages/ClientsPage.vue'
+import ProductsPage from '@/pages/ProductsPage.vue'
+import OrdersPage from '@/pages/OrdersPage.vue'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+export default createRouter({
+	history: createWebHistory(),
+	routes: [
+		{ path: '/',         component: ClientsPage },
+		{ path: '/products', component: ProductsPage },
+		{ path: '/orders',   component: OrdersPage },
+	]
 })
-
-export default router
