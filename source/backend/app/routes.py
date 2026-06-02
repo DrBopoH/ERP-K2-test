@@ -1,6 +1,12 @@
-from typing import Any, List
+"""
+Модуль маршрутизації (роутингу) API для ERP системи.
+Визначає ендпоінти для управління клієнтами, товарами та замовленнями.
+Обробляє HTTP-запити, виконує валідацію вхідних даних та взаємодіє з базою даних.
+"""
 
-from flask import Blueprint, jsonify, request
+from typing import Any, List, Tuple
+
+from flask import Blueprint, Response, jsonify, request
 
 from app.models import Client, Order, OrderItem, Product, db
 
@@ -9,7 +15,19 @@ api_bp = Blueprint("api", __name__)
 
 
 @api_bp.route("/clients", methods=["POST"])
-def create_client():
+def create_client() -> Tuple[Response, int]:
+	"""
+	Створення нового клієнта.
+	
+	Очікує JSON у форматі:
+	{
+		"name": "string"
+	}
+	
+	Повертає:
+		JSON з даними створеного клієнта (id, name) та HTTP статус 201 (Created).
+		У разі відсутності обов'язкових полів повертає HTTP статус 400.
+	"""
 	data: Any = request.get_json()
 	if not data or "name" not in data:
 		return jsonify({"error": "Поле 'name' є обов'язковим"}), 400
@@ -21,7 +39,20 @@ def create_client():
 	return jsonify({"id": client.id, "name": client.name}), 201
 
 @api_bp.route("/products", methods=["POST"])
-def create_product():
+def create_product() -> Tuple[Response, int]:
+	"""
+	Створення нового товару.
+	
+	Очікує JSON у форматі:
+	{
+		"name": "string",
+		"price": float
+	}
+	
+	Повертає:
+		JSON з даними створеного товару (id, name, price) та HTTP статус 201.
+		У разі помилки валідації повертає HTTP статус 400.
+	"""
 	data: Any = request.get_json()
 	if not data or "name" not in data or "price" not in data:
 		return jsonify({"error": "Поля 'name' та 'price' є обов'язковими"}), 400
@@ -38,7 +69,27 @@ def create_product():
 	return jsonify({"id": product.id, "name": product.name, "price": product.price}), 201
 
 @api_bp.route("/orders", methods=["POST"])
-def create_order():
+def create_order() -> Tuple[Response, int]:
+	"""
+	Створення замовлення для клієнта з автоматичним розрахунком суми.
+	
+	Очікує JSON у форматі:
+	{
+		"client_id": int,
+		"items": [
+			{
+				"product_id": int, 
+				"quantity": int
+			}
+		]
+	}
+	
+	Повертає:
+		JSON з підсумками замовлення (id, client_id, total_amount, items_count) та HTTP статус 201.
+		
+		У разі порушення бізнес-правил (клієнт/товар не знайдено, хибна кількість) 
+		повертає 400 або 404 та відкочує транзакцію.
+	"""
 	data: Any = request.get_json()
 	
 	if not data or "client_id" not in data or not data.get("items"):
@@ -55,7 +106,7 @@ def create_order():
 	
 	for item_data in data["items"]:
 		product_id: Any = item_data.get("product_id")
-		quantity: Any = item_data.get("quantity", 1)
+		quantity: int = item_data.get("quantity", 1)
 		
 		if quantity <= 0:
 			db.session.rollback()
@@ -86,7 +137,17 @@ def create_order():
 
 
 @api_bp.route("/clients/<int:client_id>/orders", methods=["GET"])
-def get_client_orders(client_id):
+def get_client_orders(client_id: int) -> Tuple[Response, int]:
+	"""
+	Отримання списку замовлень конкретного клієнта.
+	
+	Параметри шляху:
+	- client_id (int): ID клієнта в базі.
+	
+	Повертає:
+		Масив JSON-об'єктів (замовлень), де кожен об'єкт містить деталі замовлення, 
+		загальну суму (total_amount) та розгорнутий список придбаних товарів.
+	"""
 	client: Client | None = db.session.get(Client, client_id)
 	if not client:
 		return jsonify({"error": "Клієнта не знайдено"}), 404
