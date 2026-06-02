@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ProductForm from '@/components/ProductForm.vue'
+	import ProductForm from '@/components/ProductForm.vue'
 
-function handleProductCreated() {
-	console.log('Товар успішно створений!')
-}
+	function handleProductCreated() {
+		console.log('Товар успішно створений!')
+	}
 </script>
 
 <template>
@@ -12,4 +12,10 @@ function handleProductCreated() {
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+	.page-container {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+</style>

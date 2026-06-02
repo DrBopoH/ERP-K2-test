@@ -1,8 +1,8 @@
 <script setup lang="ts">
-defineProps<{
-	loading?: boolean
-	variant?: 'primary' | 'danger'
-}>()
+	defineProps<{
+		loading?: boolean
+		variant?: 'primary' | 'danger'
+	}>()
 </script>
 
 <template>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ClientForm from '@/components/ClientForm.vue'
+	import ClientForm from '@/components/ClientForm.vue'
 
-function handleClientCreated() {
-	console.log('Клієнт успішно створений!')
-}
+	function handleClientCreated() {
+		console.log('Клієнт успішно створений!')
+	}
 </script>
 
 <template>
@@ -12,4 +12,10 @@ function handleClientCreated() {
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+	.page-container {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+</style>

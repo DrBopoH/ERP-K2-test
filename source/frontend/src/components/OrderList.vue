@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { api } from '@/api/index'
-import type { Order } from '@/types/index'
-import AppInput from '@/components/ui/AppInput.vue'
-import AppButton from '@/components/ui/AppButton.vue'
+	import { ref } from 'vue'
+	import { api } from '@/api/index'
+	import type { Order } from '@/types/index'
+	import AppInput from '@/components/ui/AppInput.vue'
+	import AppButton from '@/components/ui/AppButton.vue'
 
-const clientId = ref('')
-const orders = ref<Order[]>([])
-const loading = ref(false)
-const error = ref('')
+	const clientId = ref('')
+	const orders = ref<Order[]>([])
+	const loading = ref(false)
+	const error = ref('')
 
-async function load() {
-	if (!clientId.value) return
-	loading.value = true
-	error.value = ''
-	try {
-		const res = await api.getClientOrders(parseInt(clientId.value))
-		if (res.error) throw new Error(res.error)
-		orders.value = res
-	} catch (e: any) {
-		error.value = e.message
-		orders.value = []
-	} finally {
-		loading.value = false
+	async function load() {
+		if (!clientId.value) return
+		loading.value = true
+		error.value = ''
+		try {
+			const res = await api.getClientOrders(parseInt(clientId.value))
+			if (res.error) throw new Error(res.error)
+			orders.value = res
+		} catch (e: any) {
+			error.value = e.message
+			orders.value = []
+		} finally {
+			loading.value = false
+		}
 	}
-}
 </script>
 
 <template>

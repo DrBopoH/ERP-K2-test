@@ -1,8 +1,8 @@
 <script setup lang="ts">
-defineProps<{
-	message: string
-	type?: 'success' | 'error'
-}>()
+	defineProps<{
+		message: string
+		type?: 'success' | 'error'
+	}>()
 </script>
 
 <template>
