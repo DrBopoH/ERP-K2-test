@@ -4,7 +4,7 @@
 	// app/components/ui/AppButton.vue
 	defineProps<{
 		loading?: boolean
-		variant?: 'primary' | 'danger'
+		variant?: 'primary' | 'secondary' | 'danger' | 'icon'
 	}>()
 </script>
 

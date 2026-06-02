@@ -43,18 +43,84 @@
 </script>
 
 <template>
-	<div class="form-card">
+	<div class="form-card order-form-card">
 		<h2>Нове замовлення</h2>
 		<AppAlert v-bind="alert" />
+		
 		<AppInput v-model="clientId" label="ID клієнта" type="number" placeholder="1" />
 
-		<div v-for="(item, i) in items" :key="i" class="order-item-row">
-			<AppInput v-model="item.product_id" label="ID товару" type="number" />
-			<AppInput v-model="item.quantity" label="Кількість" type="number" />
-			<button v-if="items.length > 1" @click="removeItem(i)">✕</button>
+		<div class="items-grid-container">
+			<div class="items-grid-header">
+				<label>ID Товару</label>
+				<label>Кількість</label>
+				<div></div>
+			</div>
+
+			<div v-for="(item, i) in items" :key="i" class="items-grid-row">
+				<AppInput v-model="item.product_id" type="number" placeholder="0" />
+				<AppInput v-model="item.quantity" type="number" placeholder="1" min="1" />
+
+				<AppButton 
+					v-if="items.length > 1" 
+					variant="icon" 
+					title="Видалити товар"
+					@click="removeItem(i)"
+				>
+					✕
+				</AppButton>
+				<div v-else class="btn-spacer"></div> 
+			</div>
 		</div>
 
-		<AppButton variant="primary" @click="addItem">+ Товар</AppButton>
-		<AppButton :loading="loading" @click="submit">Створити замовлення</AppButton>
+		<div class="form-actions">
+			<AppButton variant="secondary" @click="addItem">+ Товар</AppButton>
+			<AppButton :loading="loading" @click="submit">Створити замовлення</AppButton>
+		</div>
 	</div>
 </template>
+
+<style scoped>
+	.order-form-card {
+		max-width: 600px;
+	}
+	.items-grid-container {
+		margin-top: 10px;
+		margin-bottom: 20px;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		background-color: var(--bg);
+		padding: 10px;
+	}
+	.items-grid-header {
+		display: grid;
+		grid-template-columns: 1fr 1fr 40px;
+		gap: 10px;
+		padding-bottom: 8px;
+		margin-bottom: 8px;
+		border-bottom: 1px solid var(--border);
+	}
+	.items-grid-header label {
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--text-muted);
+	}
+	.items-grid-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr 40px;
+		gap: 10px;
+		align-items: center;
+		margin-bottom: 8px;
+	}
+	.items-grid-row:last-child {
+		margin-bottom: 0;
+	}
+	.btn-spacer {
+		width: 40px;
+		height: 40px;
+	}
+	.form-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+</style>

@@ -1,10 +1,16 @@
-<script setup lang="ts">
+<script lang="ts">
 
 
 	// app/components/ui/AppInput.vue
+	export default {
+		inheritAttrs: false
+	}
+</script>
+
+<script setup lang="ts">
 	defineProps<{
 		modelValue: string | number
-		label: string
+		label?: string
 		type?: string
 		placeholder?: string
 	}>()
@@ -16,12 +22,12 @@
 
 <template>
 	<div class="field">
-		<label>{{ label }}</label>
+		<label v-if="label">{{ label }}</label>
 		<input
 			:type="type ?? 'text'"
 			:value="modelValue"
 			:placeholder="placeholder"
-			@input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+			v-bind="$attrs" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
 		/>
 	</div>
 </template>
