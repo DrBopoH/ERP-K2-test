@@ -51,8 +51,8 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Run Tests with Coverage
-        run: uv run pytest --cov=app tests/ -v
+      - name: Run Tests
+        run: uv run pytest -v
 
   frontend-ci:
     name: Frontend CI (Build & Lint)
