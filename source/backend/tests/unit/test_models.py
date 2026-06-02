@@ -1,7 +1,15 @@
+"""
+Юніт-тести для перевірки ізольованої бізнес-логіки моделей даних.
+"""
 from app.models import Order, OrderItem
 
 
 def test_order_total_amount_calculation():
+	"""
+	Юніт-тест для властивості total_amount моделі Order.
+	Перевіряє правильність математичних обчислень суми замовлення
+	на основі фіксованої історичної ціни товарів.
+	"""
 	order = Order()
 	
 	item1 = OrderItem(quantity=2, price_at_moment=150.0)
