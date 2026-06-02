@@ -1,3 +1,6 @@
+
+
+// app/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
 import ClientsPage from '@/pages/ClientsPage.vue'
 import ProductsPage from '@/pages/ProductsPage.vue'

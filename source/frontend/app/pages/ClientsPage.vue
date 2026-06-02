@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+
+	// app/pages/ClientsPage.vue
 	import ClientForm from '@/components/ClientForm.vue'
 
 	function handleClientCreated() {

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+
+	// app/pages/ProductsPage.vue
 	import ProductForm from '@/components/ProductForm.vue'
 
 	function handleProductCreated() {

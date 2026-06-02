@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+
+	// app/components/ui/AppInput.vue
 	defineProps<{
 		modelValue: string | number
 		label: string

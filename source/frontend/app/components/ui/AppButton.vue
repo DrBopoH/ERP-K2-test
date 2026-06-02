@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+
+	// app/components/ui/AppButton.vue
 	defineProps<{
 		loading?: boolean
 		variant?: 'primary' | 'danger'

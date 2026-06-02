@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+
+	// app/pages/OrdersPage.vue
 	import OrderForm from '@/components/OrderForm.vue'
 	import OrderList from '@/components/OrderList.vue'
 
