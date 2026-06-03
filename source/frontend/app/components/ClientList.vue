@@ -12,6 +12,7 @@
 	const editingId = ref<number | null>(null)
 	const editForm = ref({ name: '' })
 
+	/** Отримує актуальний список записів із сервера та оновлює стан компонента */
 	async function load() {
 		loading.value = true
 		try {
@@ -23,11 +24,13 @@
 		}
 	}
 
+	/** Переводить обраний запис у режим редагування, копіюючи його поточні дані у локальну форму */
 	function startEdit(client: any) {
 		editingId.value = client.id
 		editForm.value = { name: client.name }
 	}
 
+	/** Відправляє оновлені дані на сервер, вимикає режим редагування та перезавантажує список */
 	async function saveEdit(id: number) {
 		try {
 			await api.updateClient(id, editForm.value.name)

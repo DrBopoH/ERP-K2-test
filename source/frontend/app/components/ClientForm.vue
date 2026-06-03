@@ -14,6 +14,7 @@
 	const loading = ref(false)
 	const alert = ref({ message: '', type: 'success' as 'success' | 'error' })
 
+	/** Валідує дані, відправляє запит на створення сутності та скидає форму в разі успіху */
 	async function submit() {
 		if (!name.value.trim()) return
 		loading.value = true

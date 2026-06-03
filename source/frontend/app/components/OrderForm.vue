@@ -16,14 +16,17 @@
 	const loading = ref(false)
 	const alert = ref({ message: '', type: 'success' as 'success' | 'error' })
 
+	/** Додає новий порожній рядок товару до форми замовлення */
 	function addItem() {
 		items.value.push({ product_id: 0, quantity: 1 })
 	}
 
+	/** Видаляє рядок товару з форми замовлення за його індексом */
 	function removeItem(i: number) {
 		items.value.splice(i, 1)
 	}
 
+	/** Валідує дані, відправляє запит на створення сутності та скидає форму в разі успіху */
 	async function submit() {
 		if (!clientId.value) return
 		loading.value = true

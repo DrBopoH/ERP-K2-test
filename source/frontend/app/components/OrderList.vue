@@ -13,6 +13,7 @@
 	const loading = ref(false)
 	const error = ref('')
 
+	/** Завантажує історію замовлень для введеного ID клієнта, очищуючи попередні помилки */
 	async function load() {
 		if (!clientId.value) return
 		loading.value = true
