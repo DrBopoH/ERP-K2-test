@@ -219,3 +219,112 @@ body {
 .items-grid-row .field {
 	margin-bottom: 0;
 }
+
+.page-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 30px;
+	align-items: start;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	.page-layout {
+		grid-template-columns: 1fr;
+	}
+}
+
+.list-card { 
+	max-width: 100%; 
+}
+
+.status-text { 
+	margin-bottom: 16px; 
+	color: var(--text-muted); 
+}
+
+.items-list { 
+	display: flex; 
+	flex-direction: column; 
+	gap: 12px; 
+}
+
+.item-row { 
+	margin-top: 0; 
+}
+
+.view-mode { 
+	display: flex; 
+	align-items: center; 
+	justify-content: space-between; 
+	gap: 16px; 
+}
+
+.info-group { 
+	display: flex; 
+	align-items: center; 
+	gap: 12px; 
+}
+
+.item-id { 
+	color: var(--text-muted); 
+	font-size: 0.85rem; 
+}
+
+.item-name { 
+	font-weight: 500; 
+}
+
+.action-group { 
+	display: flex; 
+	align-items: center; 
+	gap: 12px; 
+}
+
+.edit-icon { 
+	width: 18px; 
+	height: 18px; 
+	opacity: 0.8; 
+	transition: all 0.2s ease; 
+	cursor: pointer;
+}
+
+.edit-icon:hover { 
+	opacity: 1; 
+	transform: scale(1.1); 
+}
+
+.edit-mode { 
+	display: flex; 
+	flex-direction: column; 
+	gap: 12px; 
+}
+
+.edit-inputs { 
+	display: flex; 
+	gap: 12px; 
+	align-items: flex-end; 
+	width: 100%; 
+}
+
+.edit-inputs .field { 
+	margin-bottom: 0 !important; 
+	width: 100%; 
+}
+
+.input-grow { 
+	flex: 2; 
+}
+.input-fixed { 
+	flex: 1; 
+}
+.input-full { 
+	width: 100%; 
+}
+
+.edit-buttons { 
+	display: flex; 
+	justify-content: flex-end; 
+	gap: 10px; 
+}

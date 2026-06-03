@@ -11,7 +11,7 @@
 </script>
 
 <template>
-	<div class="orders-page">
+	<div class="page-layout">
 		<div class="column">
 			<OrderForm @created="handleOrderCreated" />
 		</div>
@@ -20,18 +20,3 @@
 		</div>
 	</div>
 </template>
-
-<style scoped>
-	.orders-page {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 30px;
-		align-items: start;
-	}
-
-	@media (max-width: 768px) {
-		.orders-page {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>
