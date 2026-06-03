@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1
 
 COPY pyproject.toml ./
 
-RUN uv sync --no-dev --no-root
+RUN uv sync --no-dev
 
 RUN uv add gunicorn
 
@@ -17,4 +17,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["/app/.venv/bin/gunicorn", "--bind", "0.0.0.0:5000", "main:create_app()"]
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:5000", "app.main:create_app()"]
