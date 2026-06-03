@@ -75,7 +75,7 @@ def test_update_client_invalid_data(client: FlaskClient):
 	response: TestResponse = client.put("/api/clients/1", json={})
 	
 	assert response.status_code == 400
-	assert not "Поле 'name' є обов'язковим" in response.get_json()["error"]
+	assert "Поле 'name' є обов'язковим" not in response.get_json()["error"]
 
 
 def test_delete_client_success(client: FlaskClient):
