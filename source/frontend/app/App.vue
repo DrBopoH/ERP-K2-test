@@ -1,6 +1,5 @@
 <script setup lang="ts">
 //
-	
 // app/App.vue
 import { RouterLink, RouterView } from 'vue-router'
 </script>
