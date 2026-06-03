@@ -1,6 +1,8 @@
 """
 Інтеграційні тести для перевірки бізнес-процесу оформлення замовлень.
 """
+
+# tests/integration/test_order.py
 from typing import Any, Dict, List
 
 from flask.testing import FlaskClient

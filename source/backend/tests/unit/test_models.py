@@ -1,6 +1,8 @@
 """
 Юніт-тести для перевірки ізольованої бізнес-логіки моделей даних.
 """
+
+# tests/unit/test_models.py
 from app.models import Order, OrderItem
 
 
