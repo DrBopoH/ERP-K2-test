@@ -230,8 +230,6 @@ def create_order() -> Tuple[Response, int]:
 	order = Order(client_id=client.id)
 	db.session.add(order)
 	
-	total_amount: float = 0.0
-	
 	for item_data in data["items"]:
 		product_id: Any = item_data.get("product_id")		
 		try:
@@ -256,14 +254,13 @@ def create_order() -> Tuple[Response, int]:
 			price_at_moment=product.price
 		)
 		db.session.add(order_item)
-		total_amount += product.price * quantity
 		
 	db.session.commit()
 	
 	return jsonify({
 		"id": order.id,
 		"client_id": order.client_id,
-		"total_amount": total_amount,
+		"total_amount": order.total_amount,
 		"items_count": len(data["items"])
 	}), 201
 

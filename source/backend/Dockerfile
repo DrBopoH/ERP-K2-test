@@ -11,8 +11,6 @@ COPY pyproject.toml ./
 
 RUN uv sync --no-dev
 
-RUN uv add gunicorn
-
 COPY . .
 
 EXPOSE 5000
