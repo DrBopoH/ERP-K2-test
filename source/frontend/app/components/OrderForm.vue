@@ -30,7 +30,7 @@
 		try {
 			const res = await api.createOrder(parseInt(clientId.value), items.value)
 			if (res.error) throw new Error(res.error)
-			alert.value = { message: `Замовлення #${res.id} на ${res.total_amount}₴ створено`, type: 'success' }
+			alert.value = { message: `Замовлення ${res.id} на ${res.total_amount}₴ створено`, type: 'success' }
 			clientId.value = ''
 			items.value = [{ product_id: 0, quantity: 1 }]
 			emit('created')
@@ -43,7 +43,7 @@
 </script>
 
 <template>
-	<div class="form-card order-form-card">
+	<div class="form-card">
 		<h2>Нове замовлення</h2>
 		<AppAlert v-bind="alert" />
 		
@@ -78,49 +78,3 @@
 		</div>
 	</div>
 </template>
-
-<style scoped>
-	.order-form-card {
-		max-width: 600px;
-	}
-	.items-grid-container {
-		margin-top: 10px;
-		margin-bottom: 20px;
-		border: 1px solid var(--border);
-		border-radius: 8px;
-		background-color: var(--bg);
-		padding: 10px;
-	}
-	.items-grid-header {
-		display: grid;
-		grid-template-columns: 1fr 1fr 40px;
-		gap: 10px;
-		padding-bottom: 8px;
-		margin-bottom: 8px;
-		border-bottom: 1px solid var(--border);
-	}
-	.items-grid-header label {
-		font-size: 0.8rem;
-		font-weight: 600;
-		color: var(--text-muted);
-	}
-	.items-grid-row {
-		display: grid;
-		grid-template-columns: 1fr 1fr 40px;
-		gap: 10px;
-		align-items: center;
-		margin-bottom: 8px;
-	}
-	.items-grid-row:last-child {
-		margin-bottom: 0;
-	}
-	.btn-spacer {
-		width: 40px;
-		height: 40px;
-	}
-	.form-actions {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-</style>

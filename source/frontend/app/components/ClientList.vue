@@ -38,17 +38,27 @@
 		}
 	}
 
+	async function remove(id: number) {
+		if (!confirm('Ви впевнені, що хочете видалити цього клієнта?')) return
+		try {
+			await api.deleteProduct(id)
+			await load()
+		} catch (e) {
+			alert('Помилка при видаленні')
+		}
+	}
+
 	onMounted(() => load())
 	defineExpose({ load })
 </script>
 
 <template>
-	<div class="form-card list-card">
+	<div class="form-card">
 		<h2>Список клієнтів</h2>
-		<div v-if="loading" class="status-text">Завантаження...</div>
+		<div v-if="loading" class="text-muted">Завантаження...</div>
 		
 		<div class="items-list">
-			<div v-for="client in clients" :key="client.id" class="order-card item-row">
+			<div v-for="client in clients" :key="client.id" class="item-row">
 				
 				<template v-if="editingId !== client.id">
 					<div class="view-mode">
@@ -56,13 +66,23 @@
 							<span class="item-id">#{{ client.id }}</span>
 							<span class="item-name">{{ client.name }}</span>
 						</div>
-						<AppButton variant="icon" title="Редагувати" @click="startEdit(client)">
-							<img 
-								src="https://img.icons8.com/ios-glyphs/30/737373/edit.png" 
-								alt="Ред" 
-								class="edit-icon"
-							/>
-						</AppButton>
+						<div class="action-group">
+							<AppButton variant="icon" class="primary" title="Редагувати" @click="startEdit(client)">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 20h9"></path>
+									<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+								</svg>
+							</AppButton>
+
+							<AppButton variant="icon" class="danger" title="Видалити" @click="remove(client.id)">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="3 6 5 6 21 6"></polyline>
+									<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+								</svg>
+							</AppButton>
+						</div>
 					</div>
 				</template>
 

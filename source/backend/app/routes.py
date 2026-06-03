@@ -38,6 +38,35 @@ def create_client() -> Tuple[Response, int]:
 	
 	return jsonify({"id": client.id, "name": client.name}), 201
 
+@api_bp.route("/clients", methods=["GET"])
+def get_clients() -> Tuple[Response, int]:
+	clients: List[Client] = db.session.query(Client).order_by(Client.id.desc()).all()
+	return jsonify([{"id": c.id, "name": c.name} for c in clients]), 200
+
+@api_bp.route("/clients/<int:client_id>", methods=["PUT"])
+def update_client(client_id: int) -> Tuple[Response, int]:
+	client: Client | None = db.session.get(Client, client_id)
+	if not client:
+		return jsonify({"error": f"Клієнта з id {client_id} не знайдено"}), 404
+		
+	data: Any = request.get_json()
+	if "name" in data and data["name"].strip():
+		client.name = data["name"].strip()
+		db.session.commit()
+		return jsonify({"id": client.id, "name": client.name}), 200
+	
+	return jsonify({"error": "Некоректні дані"}), 400
+
+@api_bp.route("/clients/<int:client_id>", methods=["DELETE"])
+def delete_client(client_id: int):
+    client = db.session.get(Client, client_id)
+    if not client:
+        return jsonify({"error": "Клієнта не знайдено"}), 404
+    db.session.delete(client)
+    db.session.commit()
+    return jsonify({"success": True}), 200
+
+
 @api_bp.route("/products", methods=["POST"])
 def create_product() -> Tuple[Response, int]:
 	"""
@@ -67,6 +96,39 @@ def create_product() -> Tuple[Response, int]:
 	db.session.commit()
 	
 	return jsonify({"id": product.id, "name": product.name, "price": product.price}), 201
+
+@api_bp.route("/products", methods=["GET"])
+def get_products() -> Tuple[Response, int]:
+	products: List[Product] = db.session.query(Product).order_by(Product.id.desc()).all()
+	return jsonify([{"id": p.id, "name": p.name, "price": p.price} for p in products]), 200
+
+@api_bp.route("/products/<int:product_id>", methods=["PUT"])
+def update_product(product_id: int) -> Tuple[Response, int]:
+	product: Product | None = db.session.get(Product, product_id)
+	if not product:
+		return jsonify({"error": f"Товар з id {product_id} не знайдено"}), 404
+		
+	data: Any = request.get_json()
+	if "name" in data:
+		product.name = data["name"].strip()
+	if "price" in data:
+		try:
+			product.price = float(data["price"])
+		except ValueError:
+			return jsonify({"error": "Ціна має бути числом"}), 400
+			
+	db.session.commit()
+	return jsonify({"id": product.id, "name": product.name, "price": product.price}), 200
+
+@api_bp.route("/products/<int:product_id>", methods=["DELETE"])
+def delete_product(product_id: int):
+    product = db.session.get(Product, product_id)
+    if not product:
+        return jsonify({"error": "Товар не знайдено"}), 404
+    db.session.delete(product)
+    db.session.commit()
+    return jsonify({"success": True}), 200
+
 
 @api_bp.route("/orders", methods=["POST"])
 def create_order() -> Tuple[Response, int]:
@@ -173,45 +235,3 @@ def get_client_orders(client_id: int) -> Tuple[Response, int]:
 		})
 		
 	return jsonify(orders_data), 200
-
-@api_bp.route("/products", methods=["GET"])
-def get_products() -> Tuple[Response, int]:
-	products: List[Product] = db.session.query(Product).order_by(Product.id.desc()).all()
-	return jsonify([{"id": p.id, "name": p.name, "price": p.price} for p in products]), 200
-
-@api_bp.route("/products/<int:product_id>", methods=["PUT"])
-def update_product(product_id: int) -> Tuple[Response, int]:
-	product: Product | None = db.session.get(Product, product_id)
-	if not product:
-		return jsonify({"error": f"Товар з id {product_id} не знайдено"}), 404
-		
-	data: Any = request.get_json()
-	if "name" in data:
-		product.name = data["name"].strip()
-	if "price" in data:
-		try:
-			product.price = float(data["price"])
-		except ValueError:
-			return jsonify({"error": "Ціна має бути числом"}), 400
-			
-	db.session.commit()
-	return jsonify({"id": product.id, "name": product.name, "price": product.price}), 200
-
-@api_bp.route("/clients", methods=["GET"])
-def get_clients() -> Tuple[Response, int]:
-	clients: List[Client] = db.session.query(Client).order_by(Client.id.desc()).all()
-	return jsonify([{"id": c.id, "name": c.name} for c in clients]), 200
-
-@api_bp.route("/clients/<int:client_id>", methods=["PUT"])
-def update_client(client_id: int) -> Tuple[Response, int]:
-	client: Client | None = db.session.get(Client, client_id)
-	if not client:
-		return jsonify({"error": f"Клієнта з id {client_id} не знайдено"}), 404
-		
-	data: Any = request.get_json()
-	if "name" in data and data["name"].strip():
-		client.name = data["name"].strip()
-		db.session.commit()
-		return jsonify({"id": client.id, "name": client.name}), 200
-	
-	return jsonify({"error": "Некоректні дані"}), 400

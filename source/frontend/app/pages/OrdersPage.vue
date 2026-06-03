@@ -12,11 +12,14 @@
 
 <template>
 	<div class="page-layout">
-		<div class="column">
-			<OrderForm @created="handleOrderCreated" />
-		</div>
+		
 		<div class="column">
 			<OrderList />
 		</div>
+
+		<div class="column">
+			<OrderForm @created="handleOrderCreated" />
+		</div>
+		
 	</div>
 </template>

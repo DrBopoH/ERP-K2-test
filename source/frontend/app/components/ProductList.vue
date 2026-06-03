@@ -38,17 +38,27 @@
 		}
 	}
 
+	async function remove(id: number) {
+		if (!confirm('Ви впевнені, що хочете видалити цей товар?')) return
+		try {
+			await api.deleteClient(id)
+			await load()
+		} catch (e) {
+			alert('Помилка при видаленні')
+		}
+	}
+
 	onMounted(() => load())
 	defineExpose({ load })
 </script>
 
 <template>
-	<div class="form-card list-card">
+	<div class="form-card">
 		<h2>Довідник товарів</h2>
-		<div v-if="loading" class="status-text">Завантаження...</div>
+		<div v-if="loading" class="text-muted">Завантаження...</div>
 		
 		<div class="items-list">
-			<div v-for="product in products" :key="product.id" class="order-card item-row">
+			<div v-for="product in products" :key="product.id" class="item-row">
 				
 				<template v-if="editingId !== product.id">
 					<div class="view-mode">
@@ -59,12 +69,20 @@
 						<div class="action-group">
 							<strong class="item-price">{{ product.price }} ₴</strong>
 							
-							<AppButton variant="icon" title="Редагувати" @click="startEdit(product)">
-								<img 
-									src="https://img.icons8.com/ios-glyphs/30/737373/edit.png" 
-									alt="Ред" 
-									class="edit-icon"
-								/>
+							<AppButton variant="icon" class="primary" title="Редагувати" @click="startEdit(product)">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 20h9"></path>
+									<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+								</svg>
+							</AppButton>
+
+							<AppButton variant="icon" class="danger" title="Видалити" @click="remove(product.id)">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+										stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="3 6 5 6 21 6"></polyline>
+									<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+								</svg>
 							</AppButton>
 						</div>
 					</div>
@@ -73,8 +91,8 @@
 				<template v-else>
 					<div class="edit-mode">
 						<div class="edit-inputs">
-							<AppInput v-model="editForm.name" placeholder="Назва" class="input-grow" />
-							<AppInput v-model="editForm.price" type="number" placeholder="Ціна" class="input-fixed" />
+							<AppInput v-model="editForm.name" placeholder="Назва" class="w-full" />
+							<AppInput v-model="editForm.price" type="number" placeholder="Ціна" class="w-full" />
 						</div>
 						<div class="edit-buttons">
 							<AppButton variant="secondary" @click="editingId = null">Скасувати</AppButton>

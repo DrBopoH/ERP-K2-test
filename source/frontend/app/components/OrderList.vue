@@ -31,25 +31,36 @@
 </script>
 
 <template>
-	<div class="form-card">
+	<div class="form-card list-card">
 		<h2>Замовлення клієнта</h2>
 		<div class="row">
 			<AppInput v-model="clientId" label="ID клієнта" type="number" placeholder="1" />
 			<AppButton :loading="loading" @click="load">Показати</AppButton>
 		</div>
-		<p v-if="error" class="alert error">{{ error }}</p>
+		
+		<AppAlert v-if="error" :message="error" type="error" />
 
-		<div v-for="order in orders" :key="order.id" class="order-card">
-			<div class="order-header">
-				<span>#{{ order.id }}</span>
-				<span>{{ new Date(order.created_at).toLocaleDateString('uk-UA') }}</span>
-				<strong>{{ order.total_amount }} ₴</strong>
-			</div>
-			<div v-for="item in order.items" :key="item.product_id" class="order-item">
-				{{ item.product_name }} × {{ item.quantity }} — {{ item.price_at_moment }} ₴
+		<div class="items-list">
+			<div v-for="order in orders" :key="order.id" class="order-card item-row">
+				<div class="order-header">
+					<span class="order-id">Замовлення {{ order.id }}</span>
+					<span class="order-date">{{ new Date(order.created_at).toLocaleDateString('uk-UA') }}</span>
+				</div>
+				
+				<div class="order-items">
+					<div v-for="(item, idx) in order.items" :key="idx" class="order-item-row">
+						<span class="item-name">◾ {{ item.product_name }}</span>
+						<span class="item-meta">
+							{{ item.quantity }} шт × {{ item.price_at_moment }} ₴
+						</span>
+					</div>
+				</div>
+				
+				<div class="order-total">
+					<span>Загалом до сплати:</span>
+					<span class="total-price">{{ order.total_amount }} ₴</span>
+				</div>
 			</div>
 		</div>
-
-		<p v-if="!loading && orders.length === 0 && clientId">Замовлень не знайдено</p>
 	</div>
 </template>

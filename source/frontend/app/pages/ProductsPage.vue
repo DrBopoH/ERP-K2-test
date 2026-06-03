@@ -15,11 +15,14 @@
 
 <template>
 	<div class="page-layout">
-		<div class="column">
-			<ProductForm @created="handleProductCreated" />
-		</div>
+
 		<div class="column">
 			<ProductList ref="listRef" />
 		</div>
+
+		<div class="column">
+			<ProductForm @created="handleProductCreated" />
+		</div>
+
 	</div>
 </template>

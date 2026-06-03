@@ -20,6 +20,9 @@ export const api = {
 			body: JSON.stringify({ name })
 		}).then(r => r.json()),
 
+	deleteClient: (id: number) =>
+	    fetch(`${BASE}/clients/${id}`, { method: 'DELETE' }).then(r => r.json()),
+
 	createProduct: (name: string, price: number) =>
 		fetch(`${BASE}/products`, {
 			method: 'POST',
@@ -35,6 +38,9 @@ export const api = {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ name, price })
 		}).then(r => r.json()),
+
+	deleteProduct: (id: number) =>
+	    fetch(`${BASE}/products/${id}`, { method: 'DELETE' }).then(r => r.json()),
 
 	createOrder: (client_id: number, items: any[]) =>
 		fetch(`${BASE}/orders`, {
