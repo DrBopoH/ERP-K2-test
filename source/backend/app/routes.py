@@ -4,6 +4,7 @@
 Обробляє HTTP-запити, виконує валідацію вхідних даних та взаємодіє з базою даних.
 """
 
+# app/routes.py
 from typing import Any, List, Tuple
 
 from flask import Blueprint, Response, jsonify, request
@@ -40,11 +41,33 @@ def create_client() -> Tuple[Response, int]:
 
 @api_bp.route("/clients", methods=["GET"])
 def get_clients() -> Tuple[Response, int]:
+	"""
+	Отримання списку всіх клієнтів.
+	
+	Повертає:
+		JSON масив з об'єктами клієнтів (id, name), відсортованих за спаданням ID, 
+		та HTTP статус 200.
+	"""
 	clients: List[Client] = db.session.query(Client).order_by(Client.id.desc()).all()
 	return jsonify([{"id": c.id, "name": c.name} for c in clients]), 200
 
 @api_bp.route("/clients/<int:client_id>", methods=["PUT"])
 def update_client(client_id: int) -> Tuple[Response, int]:
+	"""
+	Оновлення даних існуючого клієнта за його ID.
+	
+	Параметри шляху:
+	- client_id (int): ID клієнта, якого потрібно оновити.
+	
+	Очікує JSON у форматі:
+	{
+		"name": "string"
+	}
+	
+	Повертає:
+		JSON з оновленими даними клієнта та HTTP статус 200.
+		Якщо клієнта не знайдено, повертає 404. При відсутності коректних даних - 400.
+	"""
 	client: Client | None = db.session.get(Client, client_id)
 	if not client:
 		return jsonify({"error": f"Клієнта з id {client_id} не знайдено"}), 404
@@ -59,12 +82,22 @@ def update_client(client_id: int) -> Tuple[Response, int]:
 
 @api_bp.route("/clients/<int:client_id>", methods=["DELETE"])
 def delete_client(client_id: int):
-    client = db.session.get(Client, client_id)
-    if not client:
-        return jsonify({"error": "Клієнта не знайдено"}), 404
-    db.session.delete(client)
-    db.session.commit()
-    return jsonify({"success": True}), 200
+	"""
+	Видалення клієнта з бази даних за його ID.
+	
+	Параметри шляху:
+	- client_id (int): ID клієнта, якого потрібно видалити.
+	
+	Повертає:
+		JSON з підтвердженням успішного видалення ({"success": True}) та HTTP статус 200.
+		Якщо клієнта не знайдено, повертає 404.
+	"""
+	client = db.session.get(Client, client_id)
+	if not client:
+		return jsonify({"error": "Клієнта не знайдено"}), 404
+	db.session.delete(client)
+	db.session.commit()
+	return jsonify({"success": True}), 200
 
 
 @api_bp.route("/products", methods=["POST"])
@@ -99,11 +132,34 @@ def create_product() -> Tuple[Response, int]:
 
 @api_bp.route("/products", methods=["GET"])
 def get_products() -> Tuple[Response, int]:
+	"""
+	Отримання списку всіх товарів.
+	
+	Повертає:
+		JSON масив з об'єктами товарів (id, name, price), відсортованих за спаданням ID, 
+		та HTTP статус 200.
+	"""
 	products: List[Product] = db.session.query(Product).order_by(Product.id.desc()).all()
 	return jsonify([{"id": p.id, "name": p.name, "price": p.price} for p in products]), 200
 
 @api_bp.route("/products/<int:product_id>", methods=["PUT"])
 def update_product(product_id: int) -> Tuple[Response, int]:
+	"""
+	Оновлення даних існуючого товару (назви або ціни).
+	
+	Параметри шляху:
+	- product_id (int): ID товару для оновлення.
+	
+	Очікує JSON у форматі (усі поля є опціональними, оновлюються лише передані):
+	{
+		"name": "string",
+		"price": float
+	}
+	
+	Повертає:
+		JSON з актуальними даними товару після оновлення та HTTP статус 200.
+		Якщо товар не знайдено - 404. Якщо передано некоректну ціну - 400.
+	"""
 	product: Product | None = db.session.get(Product, product_id)
 	if not product:
 		return jsonify({"error": f"Товар з id {product_id} не знайдено"}), 404
@@ -122,12 +178,22 @@ def update_product(product_id: int) -> Tuple[Response, int]:
 
 @api_bp.route("/products/<int:product_id>", methods=["DELETE"])
 def delete_product(product_id: int):
-    product = db.session.get(Product, product_id)
-    if not product:
-        return jsonify({"error": "Товар не знайдено"}), 404
-    db.session.delete(product)
-    db.session.commit()
-    return jsonify({"success": True}), 200
+	"""
+	Видалення товару з бази даних за його ID.
+	
+	Параметри шляху:
+	- product_id (int): ID товару, який потрібно видалити.
+	
+	Повертає:
+		JSON з підтвердженням успішного видалення ({"success": True}) та HTTP статус 200.
+		Якщо товар не знайдено, повертає 404.
+	"""
+	product = db.session.get(Product, product_id)
+	if not product:
+		return jsonify({"error": "Товар не знайдено"}), 404
+	db.session.delete(product)
+	db.session.commit()
+	return jsonify({"success": True}), 200
 
 
 @api_bp.route("/orders", methods=["POST"])

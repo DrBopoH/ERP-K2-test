@@ -3,6 +3,7 @@
 Визначає структуру таблиць: клієнти, товари, замовлення та позиції замовлення.
 """
 
+# app/models.py
 from datetime import datetime, timezone
 
 from flask_sqlalchemy import SQLAlchemy

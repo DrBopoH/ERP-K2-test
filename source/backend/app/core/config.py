@@ -4,6 +4,7 @@
 Автоматично створює необхідні директорії для локальної БД.
 """
 
+# app/core/config.py
 import os
 
 from dotenv import load_dotenv

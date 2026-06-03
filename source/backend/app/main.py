@@ -4,6 +4,7 @@
 та реєструє всі доступні Blueprint маршрути.
 """
 
+# app/main.py
 from flask import Flask
 from flask_cors import CORS
 
@@ -15,6 +16,7 @@ def create_app(test_config: dict | None = None) -> Flask:
 	"""
 	Фабрика додатку (Application Factory) для створення та конфігурації екземпляра Flask.
 	Приймає опціональний test_config для перевизначення налаштувань під час тестів.
+	Відключає витяг з .env у тестовому режимі.
 	
 	Виконує:
 		- Ініціалізацію базових налаштувань та URI бази даних.
@@ -48,7 +50,7 @@ def create_app(test_config: dict | None = None) -> Flask:
 
 if __name__ == "__main__": # pragma: no cover
 	"""
-	Точка входу програми.
+	Точка входу програми. Виключено з перевірки покриття тестами.
 	"""
 	app: Flask = create_app()
 	

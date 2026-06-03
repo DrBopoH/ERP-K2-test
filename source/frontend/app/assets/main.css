@@ -47,19 +47,19 @@ body {
 }
 
 .page-layout {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 48px;
+	display: grid;
+	grid-template-columns: 1.5fr 1fr;
+	gap: 48px;
 
-    width: 100%;
-    max-width: 1400px;
+	width: 100%;
+	max-width: 1400px;
 
-    margin: 0 auto;
-    padding-inline: 32px;
-    padding-top: 24px;
+	margin: 0 auto;
+	padding-inline: 32px;
+	padding-top: 24px;
 
-    box-sizing: border-box;
-    align-items: start;
+	box-sizing: border-box;
+	align-items: start;
 }
 
 @media (max-width: 768px) {
@@ -70,16 +70,16 @@ body {
 
 
 .orders-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 
-    padding-right: 12px;
+	padding-right: 12px;
 }
 
 .form-card {
 	position: sticky;
-    top: 24px;
+	top: 24px;
 
 	box-sizing: border-box;
 	min-width: 0;
@@ -301,56 +301,56 @@ body {
 }
 
 .items-grid-container {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding: 10px;
 
-    background-color: var(--bg);
+	background-color: var(--bg);
 
-    border: 1px solid var(--border);
-    border-radius: 8px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
 }
 
 .items-grid-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 40px;
-    gap: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 40px;
+	gap: 10px;
 
-    margin-bottom: 8px;
-    padding-bottom: 8px;
+	margin-bottom: 8px;
+	padding-bottom: 8px;
 
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-muted);
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: var(--text-muted);
 
-    border-bottom: 1px dashed var(--border);
+	border-bottom: 1px dashed var(--border);
 }
 
 .items-grid-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 40px;
-    gap: 10px;
-    align-items: start;
+	display: grid;
+	grid-template-columns: 1fr 1fr 40px;
+	gap: 10px;
+	align-items: start;
 
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .items-grid-row:last-child {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .items-grid-row .field {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .btn-spacer {
-    width: 40px;
+	width: 40px;
 }
 
 .form-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
+	display: flex;
+	gap: 12px;
+	margin-top: 20px;
 }
 
 

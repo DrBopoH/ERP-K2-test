@@ -26,7 +26,7 @@ export const api = {
 
 	/** Видаляє клієнта за ID */
 	deleteClient: (id: number) =>
-	    fetch(`${BASE}/clients/${id}`, { method: 'DELETE' }).then(r => r.json()),
+		fetch(`${BASE}/clients/${id}`, { method: 'DELETE' }).then(r => r.json()),
 
 
 	/** Створює новий товар */
@@ -50,7 +50,7 @@ export const api = {
 
 	/** Видаляє товар за ID */
 	deleteProduct: (id: number) =>
-	    fetch(`${BASE}/products/${id}`, { method: 'DELETE' }).then(r => r.json()),
+		fetch(`${BASE}/products/${id}`, { method: 'DELETE' }).then(r => r.json()),
 
 
 	/**
