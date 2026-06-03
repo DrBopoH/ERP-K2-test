@@ -22,7 +22,7 @@
 			const res = await api.getClientOrders(parseInt(clientId.value))
 			if (res.error) throw new Error(res.error)
 			orders.value = res
-		} catch (e: any) {
+		} catch (e: unknown) {
 			error.value = e.message
 			orders.value = []
 		} finally {

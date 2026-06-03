@@ -4,10 +4,11 @@
 	// app/components/ClientList.vue
 	import { ref, onMounted } from 'vue'
 	import { api } from '@/api/index'
+	import type { Client } from '@/types/index'
 	import AppInput from '@/components/ui/AppInput.vue'
 	import AppButton from '@/components/ui/AppButton.vue'
 
-	const clients = ref<any[]>([])
+	const clients = ref<Client[]>([])
 	const loading = ref(false)
 	const editingId = ref<number | null>(null)
 	const editForm = ref({ name: '' })
@@ -25,7 +26,7 @@
 	}
 
 	/** Переводить обраний запис у режим редагування, копіюючи його поточні дані у локальну форму */
-	function startEdit(client: any) {
+	function startEdit(client: Client) {
 		editingId.value = client.id
 		editForm.value = { name: client.name }
 	}
@@ -46,7 +47,7 @@
 		try {
 			await api.deleteProduct(id)
 			await load()
-		} catch (e) {
+		} catch {
 			alert('Помилка при видаленні')
 		}
 	}

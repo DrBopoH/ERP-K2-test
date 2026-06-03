@@ -4,10 +4,11 @@
 	// app/components/ProductList.vue
 	import { ref, onMounted } from 'vue'
 	import { api } from '@/api/index'
+	import type { Product } from '@/types/index'
 	import AppInput from '@/components/ui/AppInput.vue'
 	import AppButton from '@/components/ui/AppButton.vue'
 
-	const products = ref<any[]>([])
+	const products = ref<Product[]>([])
 	const loading = ref(false)
 	const editingId = ref<number | null>(null)
 	const editForm = ref({ name: '', price: 0 })
@@ -23,7 +24,7 @@
 		}
 	}
 
-	function startEdit(product: any) {
+	function startEdit(product: Product) {
 		editingId.value = product.id
 		editForm.value = { name: product.name, price: product.price }
 	}
@@ -43,7 +44,7 @@
 		try {
 			await api.deleteClient(id)
 			await load()
-		} catch (e) {
+		} catch {
 			alert('Помилка при видаленні')
 		}
 	}

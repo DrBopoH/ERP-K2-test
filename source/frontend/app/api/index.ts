@@ -1,12 +1,14 @@
 
 
 // app/api/index.ts
-const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:5000/api'
+import type { Client, Product, OrderItem, Order } from '@/types/index'
+
+const BASE = (import.meta.env.VITE_API_URL ?? 'http://localhost:5000') + '/api'
 
 export const api = {
 
 	/** Створює нового клієнта */
-	createClient: (name: string) =>
+	createClient: (name: string): Promise<Client> =>
 		fetch(`${BASE}/clients`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -14,10 +16,11 @@ export const api = {
 		}).then(r => r.json()),
 
 	/** Отримує повний список усіх клієнтів */
-	getClients: () => fetch(`${BASE}/clients`).then(r => r.json()),
+	getClients: (): Promise<Client[]> => 
+		fetch(`${BASE}/clients`).then(r => r.json()),
 	
 	/** Оновлює дані клієнта (назву) за його ID */
-	updateClient: (id: number, name: string) =>
+	updateClient: (id: number, name: string): Promise<Client> =>
 		fetch(`${BASE}/clients/${id}`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
@@ -25,12 +28,11 @@ export const api = {
 		}).then(r => r.json()),
 
 	/** Видаляє клієнта за ID */
-	deleteClient: (id: number) =>
+	deleteClient: (id: number): Promise<{ success: boolean }> => // или что там шлет бек
 		fetch(`${BASE}/clients/${id}`, { method: 'DELETE' }).then(r => r.json()),
 
-
 	/** Створює новий товар */
-	createProduct: (name: string, price: number) =>
+	createProduct: (name: string, price: number): Promise<Product> =>
 		fetch(`${BASE}/products`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -38,10 +40,11 @@ export const api = {
 		}).then(r => r.json()),
 
 	/** Отримує повний список усіх доступних товарів */
-	getProducts: () => fetch(`${BASE}/products`).then(r => r.json()),
+	getProducts: (): Promise<Product[]> => 
+		fetch(`${BASE}/products`).then(r => r.json()),
 
 	/** Оновлює дані існуючого товару (назву та ціну) за його ID */
-	updateProduct: (id: number, name: string, price: number) =>
+	updateProduct: (id: number, name: string, price: number): Promise<Product> =>
 		fetch(`${BASE}/products/${id}`, {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
@@ -49,9 +52,8 @@ export const api = {
 		}).then(r => r.json()),
 
 	/** Видаляє товар за ID */
-	deleteProduct: (id: number) =>
+	deleteProduct: (id: number): Promise<{ success: boolean }> =>
 		fetch(`${BASE}/products/${id}`, { method: 'DELETE' }).then(r => r.json()),
-
 
 	/**
 	 * Створює нове замовлення для вказаного клієнта.
@@ -59,7 +61,7 @@ export const api = {
 	 * @param items Масив товарів (ID та кількість)
 	 * @returns Створене замовлення із розрахованою загальною вартістю
 	 */
-	createOrder: (client_id: number, items: any[]) =>
+	createOrder: (client_id: number, items: OrderItem[]): Promise<Order> =>
 		fetch(`${BASE}/orders`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -71,6 +73,6 @@ export const api = {
 	 * @param clientId ID клієнта
 	 * @returns Масив замовлень із деталізацією по кожному товару
 	 */
-	getClientOrders: (client_id: number) =>
+	getClientOrders: (client_id: number): Promise<Order[]> =>
 		fetch(`${BASE}/clients/${client_id}/orders`).then(r => r.json()),
 }

@@ -26,7 +26,7 @@
 			name.value = ''
 			price.value = ''
 			emit('created')
-		} catch (e: any) {
+		} catch (e: unknown) {
 			alert.value = { message: e.message, type: 'error' }
 		} finally {
 			loading.value = false
