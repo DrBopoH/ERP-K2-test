@@ -1,37 +1,36 @@
 <script setup lang="ts">
+//
+// app/components/ProductForm.vue
+import { ref } from 'vue'
+import { api } from '@/api/index'
+import AppInput from '@/components/ui/AppInput.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import AppAlert from '@/components/ui/AppAlert.vue'
 
+const emit = defineEmits<{ created: [] }>()
 
-	// app/components/ProductForm.vue
-	import { ref } from 'vue'
-	import { api } from '@/api/index'
-	import AppInput from '@/components/ui/AppInput.vue'
-	import AppButton from '@/components/ui/AppButton.vue'
-	import AppAlert from '@/components/ui/AppAlert.vue'
+const name = ref('')
+const price = ref('')
+const loading = ref(false)
+const alert = ref({ message: '', type: 'success' as 'success' | 'error' })
 
-	const emit = defineEmits<{ created: [] }>()
-
-	const name = ref('')
-	const price = ref('')
-	const loading = ref(false)
-	const alert = ref({ message: '', type: 'success' as 'success' | 'error' })
-
-	/** Валідує дані, відправляє запит на створення сутності та скидає форму в разі успіху */
-	async function submit() {
-		if (!name.value.trim() || !price.value) return
-		loading.value = true
-		try {
-			const res = await api.createProduct(name.value.trim(), parseFloat(price.value))
-			if (res.error) throw new Error(res.error)
-			alert.value = { message: `Товар "${res.name}" створений`, type: 'success' }
-			name.value = ''
-			price.value = ''
-			emit('created')
-		} catch (e: unknown) {
-			alert.value = { message: e.message, type: 'error' }
-		} finally {
-			loading.value = false
-		}
+/** Валідує дані, відправляє запит на створення сутності та скидає форму в разі успіху */
+async function submit() {
+	if (!name.value.trim() || !price.value) return
+	loading.value = true
+	try {
+		const res = await api.createProduct(name.value.trim(), parseFloat(price.value))
+		if (res.error) throw new Error(res.error)
+		alert.value = { message: `Товар "${res.name}" створений`, type: 'success' }
+		name.value = ''
+		price.value = ''
+		emit('created')
+	} catch (e: unknown) {
+		alert.value = { message: e.message, type: 'error' }
+	} finally {
+		loading.value = false
 	}
+}
 </script>
 
 <template>

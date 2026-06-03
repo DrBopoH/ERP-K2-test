@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
-
-	// app/components/ui/AppButton.vue
-	defineProps<{
-		loading?: boolean
-		variant?: 'primary' | 'secondary' | 'danger' | 'icon'
-	}>()
+//
+// app/components/ui/AppButton.vue
+defineProps<{
+	loading?: boolean
+	variant?: 'primary' | 'secondary' | 'danger' | 'icon'
+}>()
 </script>
 
 <template>

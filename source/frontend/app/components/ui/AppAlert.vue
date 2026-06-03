@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
-
-	// app/components/ui/AppAlert.vue
-	defineProps<{
-		message: string
-		type?: 'success' | 'error'
-	}>()
+//
+// app/components/ui/AppAlert.vue
+defineProps<{
+	message: string
+	type?: 'success' | 'error'
+}>()
 </script>
 
 <template>
