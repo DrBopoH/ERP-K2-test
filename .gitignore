@@ -12,7 +12,7 @@ __pycache__
 
 htmlcov/
 
-.cache/
+node_modules/
 
 *.sublime-project
 *.sublime-workspace
