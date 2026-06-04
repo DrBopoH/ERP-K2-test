@@ -26,7 +26,7 @@
 git clone https://github.com/DrBopoH/ERP-K2-test.git
 cd ERP-K2-test/source
 
-docker compose up --build
+docker compose up -d --build
 ```
 
 Відкрити: [http://localhost](http://localhost)
