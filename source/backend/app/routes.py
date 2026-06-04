@@ -92,7 +92,7 @@ def delete_client(client_id: int):
 		JSON з підтвердженням успішного видалення ({"success": True}) та HTTP статус 200.
 		Якщо клієнта не знайдено, повертає 404.
 	"""
-	client = db.session.get(Client, client_id)
+	client: Client | None = db.session.get(Client, client_id)
 	if not client:
 		return jsonify({"error": "Клієнта не знайдено"}), 404
 	db.session.delete(client)
@@ -188,7 +188,7 @@ def delete_product(product_id: int):
 		JSON з підтвердженням успішного видалення ({"success": True}) та HTTP статус 200.
 		Якщо товар не знайдено, повертає 404.
 	"""
-	product = db.session.get(Product, product_id)
+	product: Product | None = db.session.get(Product, product_id)
 	if not product:
 		return jsonify({"error": "Товар не знайдено"}), 404
 	db.session.delete(product)
